@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Unos partnera</title>
+    </h:head>
+    <h:body>
+        <ui:composition template="./WEB-INF/template.xhtml">
+            <ui:define name="main" id="main">
+                <h:form id="frmUnosGosta">
+                    <p:growl id="growl" sticky="true" autoUpdate="true"/>
+
+                    <h:panelGrid columns="2" >
+                        
+                        <h:inputHidden value="#{mbObradaGosta.gost.gostID}" id = "hiddenID"/>
+                        <p:message for="hiddenID"/>
+
+                        <p:outputLabel value="Ime:" />
+                        <p:inputText id="txtIme"  value="#{mbObradaGosta.gost.ime}" readonly="#{mbObradaGosta.vidljivost}" required="true" requiredMessage="Morate uneti ime gosta." validator="tekstValidator" validatorMessage="Ime gosta ne sme sadrzati brojeve."/>
+                        
+
+                        <p:outputLabel value="Prezime:" />
+                        <p:inputText id="txtPrezime" value="#{mbObradaGosta.gost.prezime}" readonly="#{mbObradaGosta.vidljivost}" required="true" requiredMessage="Morate uneti prezime gosta." validator="tekstValidator" validatorMessage="Prezime gosta ne sme sadrzati brojeve."/>
+                       
+
+                        <p:outputLabel value="JMBG:" />
+                        <p:inputText id="txtJMBG" value="#{mbObradaGosta.gost.jmbg}" readonly="#{mbObradaGosta.izmena}" required="true" requiredMessage="Morate uneti jmbg gosta." validator="jmbgValidator"/>
+                       
+                        
+                        <p:outputLabel value="Kontakt:" />
+                        <p:inputText id="txtKontakt" value="#{mbObradaGosta.gost.kontakt}" readonly="#{mbObradaGosta.vidljivost}"/>
+                       
+
+
+                        <p:outputLabel value="E-mail:" />
+                        <p:inputText id="txtMail" value="#{mbObradaGosta.gost.mail}" validatorMessage="Morate uneti odgovarajuci format e-mail adrese" readonly="#{mbObradaGosta.vidljivost}" >
+                             <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                        </p:inputText>
+                        
+
+                        <p:outputLabel value="Državljanstvo:" />
+                        <p:selectOneMenu id="cmbDrzavljanstvo" value="#{mbObradaGosta.gost.drzavljanstvoID}" converter="#{drzavljanstvoKNV}" style="width: 210px"  >
+                            <f:selectItems value="#{mbObradaGosta.listaDrzavljanstava}" var="drzavljanstvo" itemValue="#{drzavljanstvo}" itemLabel="#{drzavljanstvo.naziv}" />
+                        </p:selectOneMenu>                         
+
+                    </h:panelGrid>
+                    <p:commandButton value="Sačuvaj" action="#{mbObradaGosta.sacuvajGosta()}" style="visibility: #{mbObradaGosta.vratiVidljivostSave()};" update="growl" />
+                    <p:commandButton  action="#{mbObradaGosta.izmeni()}" value="Izmeni" style="visibility: #{mbObradaGosta.vratiVidljivost()};" update=":frmUnosGosta" />
+                    <p:commandButton  action="#{mbObradaGosta.obrisiGosta()}" value="Obrisi" style="visibility: #{mbObradaGosta.vratiVidljivost()};" update="growl" />
+                    
+                   
+
+                </h:form>        
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>

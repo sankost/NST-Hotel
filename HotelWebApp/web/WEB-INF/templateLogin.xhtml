@@ -1,0 +1,43 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Hotel Web Application</title>
+        <meta charset="utf-8"/>
+        <h:outputStylesheet name="css/index.css"/>
+    </h:head>
+    <h:body>
+        <div id="container">
+            <header><p><b><i>HOTEL</i></b></p><br/>
+                <h5><i>-evidencija gostiju i boravaka-</i></h5>
+            </header>
+            <nav>
+                <h:form>
+                    <p:menubar>
+                        <p:menuitem value="Unesite podatke kako biste se prijavili na sistem:"/>
+                    </p:menubar>
+                    <!--
+                    <br/>
+                    <p:outputLabel value=" Unesite podatke kako biste se prijavili na sistem:"/>
+                   -->
+                </h:form>
+            </nav>
+            <main>
+                <table id="main_table">
+                    <tr id="main_container">
+                        <td id="main">
+                                <ui:insert name ="main" id="main"></ui:insert>
+                            
+                        </td>
+                        <td id="side">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td id="footer" colspan="2">Napredne softverske tehnologije</td>
+                    </tr>
+                </table>
+            </main>
+        </div>
+    </h:body>
+</html>

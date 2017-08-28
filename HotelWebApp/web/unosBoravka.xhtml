@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Unos boravka</title>
+    </h:head>
+    <h:body>
+        <ui:composition template="./WEB-INF/template.xhtml">
+            <ui:define name="main" id="main">
+                <h:form id="frmUnosBoravka">
+                    <p:growl id="growl" sticky="true" autoUpdate="true" />
+
+                    <h:panelGrid columns="3">
+
+                        <h:inputHidden value="#{mbUnosBoravka.boravak.boravakID}" id = "hiddenID"/>
+                        <h:message for="hiddenID"/>
+                         <h:message for="hiddenID" />
+
+                        <p:outputLabel value="Gost:" />
+                        <p:selectOneMenu id="cmbGost" value="#{mbUnosBoravka.boravak.gostID}" converter="#{gostKNV}" style="width: 230px" >
+                            <f:selectItems value="#{mbUnosBoravka.listaGostiju}" var="gost" itemValue="#{gost}" itemLabel="#{gost.toString()}" />
+                        </p:selectOneMenu>
+                        <h:message for="cmbGost" />
+
+                        <p:outputLabel value="Soba:" />
+                        <p:selectOneMenu id="cmbSoba" value="#{mbUnosBoravka.boravak.sobaID}" converter="#{sobaKNV}" style="width: 230px" >
+                            <f:selectItems value="#{mbUnosBoravka.listaSoba}" var="soba" itemValue="#{soba}" itemLabel="#{soba.brojSobe}" />
+                        </p:selectOneMenu>
+                        <h:message for="cmbSoba" />
+
+                        <p:outputLabel value="Datum od:" />
+                        <p:calendar id="txtDatumOd" pattern="dd.MM.yyyy" value="#{mbUnosBoravka.boravak.datumOd}" required="true" requiredMessage="Morate uneti datum boravka." readonly="#{mbUnosBoravka.vidljivost}"/>
+                        <h:message for="txtDatumOd" />
+
+                        <p:outputLabel value="Datum do:" />
+                        <p:calendar id="txtDatumDo" pattern="dd.MM.yyyy" value="#{mbUnosBoravka.boravak.datumDo}" required="true" requiredMessage="Morate uneti datum boravka." readonly="#{mbUnosBoravka.vidljivost}" />
+                        <h:message for="txtDatumDo" />
+
+
+                        <p:outputLabel value="Cena:" />
+                        <p:inputText id="txtCena" value="#{mbUnosBoravka.boravak.cena}" required="true" requiredMessage="Morate uneti cenu boravka." readonly="#{mbUnosBoravka.vidljivost}"/>
+                        <h:message for="txtCena" />
+
+                    </h:panelGrid><br/>
+                    <p:commandButton value="Sačuvaj" action="#{mbUnosBoravka.sacuvajBoravak()}" style="visibility: #{mbUnosBoravka.vratiVidljivostSave()};" update="growl" />
+                    <p:commandButton value="Izmeni" action="#{mbUnosBoravka.pokreniIzmenu()}" style="visibility: #{mbUnosBoravka.vratiVidljivost()};" update="frmUnosBoravka" />
+
+                </h:form>        
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>

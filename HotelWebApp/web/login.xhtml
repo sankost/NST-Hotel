@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Pocetna strana</title>
+    </h:head>
+    <h:body>
+
+        <ui:composition template="./WEB-INF/templateLogin.xhtml">
+
+
+            <ui:define name ="main" id ="main">
+                <h:form id="frmLogIn">
+                    <p:growl id="growl" sticky="true" showDetail="true" />
+                    <h:panelGrid columns="3">
+                    <p:outputLabel value="Korisnicko ime " />
+                    <p:inputText value="#{mbObradaRecepcionera.username}" />
+                    <br/>
+                    <p:outputLabel value="Korisnicka sifra " />
+                    <p:password value="#{mbObradaRecepcionera.password}"></p:password>
+                    <br/>
+                    <p:commandButton value="Prijavi se" action="#{mbObradaRecepcionera.vratiRecepcionera()}" update="growl"></p:commandButton>
+                    </h:panelGrid>
+                </h:form> 
+            </ui:define>
+
+        </ui:composition>
+    </h:body>
+</html>
+

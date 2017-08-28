@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>Prikaz gostiju</title>
+    </h:head>
+    <h:body>
+        <ui:composition template="./WEB-INF/template.xhtml">
+            <ui:define name="main" id="main">
+                <h:form id ="dataTableFormaBoravak">
+                    <p:growl id="growl" showDetail="true" sticky="true" />
+
+                    <p:dataTable id = "dbBoravak" value="#{mbObradaBoravka.listaBoravaka}" var="boravak" 
+                                 emptyMessage="Nema pronadjenih boravaka"
+                                 selectionMode="single" selection="#{mbObradaBoravka.boravak}" rowKey="#{boravak.boravakID}">
+
+                        <f:facet name="header">
+                            <p:outputPanel>
+                                <h:outputText value="Pretraga po kriterijumu:" />
+                                <p:inputText id="globalFilter" onkeyup="PF('dtBoravak').filter()" 
+                                             style="width:150px" placeholder="kriterijum"/>
+                            </p:outputPanel>
+                        </f:facet>
+
+                        <p:column sortBy="#{boravak.boravakID}" style="width:30px;">
+                            <f:facet name="header" >Sifra</f:facet>
+                                #{boravak.boravakID}
+                        </p:column>
+                        <p:column sortBy="#{boravak.gostID.toString}" filterBy="#{boravak.gostID.toString}" headerText="Gost" filterMatchMode="contains">
+                            <f:facet name="header">Gost</f:facet>
+                                #{boravak.gostID.toString()}
+                        </p:column>
+                        <p:column sortBy="#{boravak.sobaID.brojSobe}" filterBy="#{boravak.sobaID.brojSobe}" headerText="Soba" filterMatchMode="contains">
+                            <f:facet name="header">Soba</f:facet>
+                                #{boravak.sobaID.brojSobe}
+                        </p:column>
+                        <p:column sortBy="#{boravak.datumOd}" filterBy="#{boravak.datumOd}" headerText="Datum od" filterMatchMode="contains">
+                            <f:facet name="header">Datum od</f:facet>
+                            <p:outputLabel value="#{boravak.datumOd}">
+                                <f:convertDateTime pattern="dd.MM.yyyy" />
+                            </p:outputLabel>
+                        </p:column>
+                        <p:column sortBy="#{boravak.datumDo}" filterBy="#{boravak.datumDo}" headerText="Datum do" filterMatchMode="contains">
+                            <f:facet name="header">Datum do</f:facet> 
+                            <p:outputLabel value="#{boravak.datumDo}">
+                                <f:convertDateTime pattern="dd.MM.yyyy" />
+                            </p:outputLabel>         
+                        </p:column>
+                        <p:column sortBy="#{boravak.cena}" filterBy="#{boravak.cena}" headerText="E-mail" filterMatchMode="contains">
+                            <f:facet name="header">Cena</f:facet>
+                                #{boravak.cena}
+                        </p:column>
+                        <f:facet name="footer">
+                            <p:commandButton value="Prikazi uplate"  update=":dataTableFormaBoravak:dbUplata"/>
+                            <p:commandButton value="Izmeni" icon="ui-icon-edit"  action="#{mbObradaBoravka.pokreniIzmenu()}"/>
+                            <p:commandButton value="Obrisi" icon="ui-icon-trash" action="#{mbObradaBoravka.obrisiBoravak()}" update=":dataTableFormaBoravak">
+                                <p:confirm header="Confirmation" message="Da li ste sigurni da zelite da obrisete boravak?" icon="ui-icon-alert" />
+                            </p:commandButton>
+                            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                            </p:confirmDialog>
+
+                        </f:facet>
+                    </p:dataTable>
+
+                    <br/><br/>
+
+                    <p:dataTable id = "dbUplata" rendered="#{mbObradaBoravka.prikaziTabelu}" value="#{mbObradaBoravka.listaUplataZaBoravak}" var="uplata">
+                        <p:column sortBy="#{uplata.uplataID}" style="width:30px;">
+                            <f:facet name="header" >Sifra</f:facet>
+                                #{uplata.uplataID}
+                        </p:column>
+                        <p:column sortBy="#{uplata.datumUplate}">
+                            <f:facet name="header">Datum</f:facet>
+                            <p:outputLabel value="#{uplata.datumUplate}">
+                                <f:convertDateTime pattern="dd.MM.yyyy" />
+                            </p:outputLabel>
+                        </p:column>
+                        <p:column sortBy="#{uplata.iznos}">
+                            <f:facet name="header">Iznos</f:facet>
+                                #{uplata.iznos}
+                        </p:column>
+                        <f:facet name="footer">
+                            <p:commandButton value="Dodaj uplatu" onclick="PF('dlg2').show();"/>
+                            
+                            <p:dialog header="Unos nove uplate" widgetVar="dlg2" modal="true" height="300">
+                                <p:panelGrid columns="3">
+
+                                    <p:outputLabel value="Datum uplate:" />
+                                    <p:inputText id="txtDatumUplate" value="#{mbObradaBoravka.uplata.datumUplate}" >
+                                        <f:convertDateTime pattern="dd.MM.yyyy" />
+                                    </p:inputText>
+                                    <h:message for="txtDatumUplate" />
+
+                                    <p:outputLabel value="Iznos:" />
+                                    <p:inputText id="txtIznos"  value="#{mbObradaBoravka.uplata.iznos}" />
+                                    <h:message for="txtIznos" errorStyle="color:red;" />
+                                    
+                                    <p:commandButton value="Sacuvaj" icon="ui-icon-save"  action="#{mbObradaBoravka.sacuvajUplatu()}" update=":dataTableFormaBoravak:dbUplata"/>
+
+                                </p:panelGrid>
+                            </p:dialog>
+                        </f:facet>
+                    </p:dataTable>
+
+                </h:form> 
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>

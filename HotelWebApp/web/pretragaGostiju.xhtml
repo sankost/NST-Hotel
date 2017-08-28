@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>Prikaz gostiju</title>
+    </h:head>
+    <h:body>
+        <ui:composition template="./WEB-INF/template.xhtml">
+            <ui:define name="main" id="main">
+                <h:form id ="dataTableForma">
+
+                    <p:dataTable id = "dbGosti" value="#{mbPretragaGostiju.listaGostiju}" var="gost" widgetVar="dbGosti"
+                                 emptyMessage="Sistem ne može da pronađe goste po zadatim vrednostima." filteredValue="#{mbFilterGostiju.listaFiltriranihGostiju}"
+                                 selectionMode="single" selection="#{mbObradaGosta.gost}" rowKey="#{gost.gostID}">
+
+                        <f:facet name="header">
+                            <p:outputPanel>
+                                <h:outputText value="Prikaz svih gostiju hotela" />
+                            </p:outputPanel>
+                        </f:facet>
+
+                        <p:column sortBy="#{gost.gostID}" style="width:30px;">
+                            <f:facet name="header" >Sifra</f:facet>
+                                #{gost.gostID}
+                        </p:column>
+                        <p:column sortBy="#{gost.ime}" filterBy="#{gost.ime}" headerText="Ime gosta" filterMatchMode="contains">
+                            <f:facet name="header">Ime</f:facet>
+                                #{gost.ime}
+                        </p:column>
+                        <p:column sortBy="#{gost.prezime}" filterBy="#{gost.prezime}" headerText="Prezime gosta" filterMatchMode="contains">
+                            <f:facet name="header">Prezime</f:facet>
+                                #{gost.prezime}
+                        </p:column>
+                        <p:column sortBy="#{gost.jmbg}" filterBy="#{gost.jmbg}" headerText="JMBG gosta" filterMatchMode="contains">
+                            <f:facet name="header">JMBG</f:facet>
+                                #{gost.jmbg}
+                        </p:column>
+                        <p:column sortBy="#{gost.kontakt}" filterBy="#{gost.kontakt}" headerText="Kontakt" filterMatchMode="contains">
+                            <f:facet name="header">Kontakt</f:facet>
+                                #{gost.kontakt}
+                        </p:column>
+                        <p:column sortBy="#{gost.mail}" filterBy="#{gost.mail}" headerText="E-mail" filterMatchMode="contains">
+                            <f:facet name="header">E-mail</f:facet>
+                                #{gost.mail}
+                        </p:column>
+                        <p:column filterBy="#{gost.drzavljanstvoID.naziv}" headerText="Drzavljanstvo" filterMatchMode="exact">
+                            <f:facet name="filter">
+                                <p:selectOneMenu onchange="PF('dbGosti').filter()" style="width: 135px">
+                                    <f:selectItem itemLabel="Odaberi" itemValue="#{null}" noSelectionOption="true" />
+                                    <f:selectItems value="#{mbObradaGosta.listaDrzavljanstava}" />
+                                </p:selectOneMenu>
+                            </f:facet>
+                            <h:outputText value="#{gost.drzavljanstvoID.naziv}" />
+                        </p:column>
+                        <f:facet name = "footer">
+                            <p:commandButton value="Prikaži" action="#{mbObradaGosta.pokreniIzmenu()}"/>
+                        </f:facet>
+                    </p:dataTable> 
+
+
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+
