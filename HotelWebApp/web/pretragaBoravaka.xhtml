@@ -12,6 +12,7 @@
         <ui:composition template="./WEB-INF/template.xhtml">
             <ui:define name="main" id="main">
                 <h:form id ="dataTableFormaBoravak">
+                    <p:commandButton value="PDF Export" action="#{report.napraviPDF()}" id="pdf" />
                     <p:growl id="growl" showDetail="true" sticky="true" autoUpdate="true"/>
                     <p:dataTable id = "dbBoravak" value="#{mbObradaBoravka.listaBoravaka}" var="boravak" widgetVar="dbBoravak"
                                  emptyMessage="Sistem ne može da nađe ni jedan boravak po zadatim vrednostima." filteredValue="#{mbFilterBoravaka.listaFiltriranihBoravaka}"

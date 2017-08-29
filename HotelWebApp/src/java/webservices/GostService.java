@@ -6,14 +6,11 @@
 package webservices;
 
 import java.net.URI;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.ws.rs.ClientErrorException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
-import static javax.ws.rs.core.Response.Status.OK;
 import javax.ws.rs.core.UriBuilder;
 
 /**
